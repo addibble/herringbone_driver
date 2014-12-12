@@ -20,9 +20,7 @@ pi=3.1415926535897932384626433832795;
 //example usage
 //rack(innerRadius,borders,diametralPitch,numberOfTeeth,pressureAngle,centerAngle);
 
-
-
-module herringbone_rack(innerRadius,borders,P,N,PA,CA)
+module herringbone_rack(width,P,N,PA,CA)
 {
 	// P = diametral pitch
 	// N = number of teeth
@@ -32,7 +30,6 @@ module herringbone_rack(innerRadius,borders,P,N,PA,CA)
 	d = 1.25/P; // dedendum (this is set by a standard)
 	multiplier=20;//20
 	height=(d+a)*multiplier;
-	
 	
 	// find the tangent of pressure angle once
 	tanPA = tan(PA*(180/pi));
@@ -47,8 +44,6 @@ module herringbone_rack(innerRadius,borders,P,N,PA,CA)
 	offset=topL+botL+2*slantLng;
 	length=(realBase+botL)*N;
 
-	width=(innerRadius+borders)*2;
-
 	//calculate tooth params
 	basesegmentL=realBase/2;
 	basesegmentW=width/2;
@@ -61,14 +56,13 @@ module herringbone_rack(innerRadius,borders,P,N,PA,CA)
 	
 	for (i = [0:N-1]) 
 	{
-		translate([0,i*offset-length/2+realBase/2,height/2]) 
+		translate([0,i*offset-length/2+realBase/2,0]) 
 		{	
 			tooth(basesegmentL,basesegmentW,topsegmentL,topsegmentW,height,baseoffsetY,topoffsetY);
 				
 		}
 	}
 }
-
 
 module tooth(basesegmentL,basesegmentW,topsegmentL,topsegmentW,height,baseoffsetY,topoffsetY)//top : width*length, same for base
 {
@@ -183,12 +177,13 @@ module tooth(basesegmentL,basesegmentW,topsegmentL,topsegmentW,height,baseoffset
 	);
 }
 
-module herringbone_gear(number_of_teeth=8, circular_pitch=300, pressure_angle=19.34, center_angle=25, wheel_size=12, hub_thickness=20, backlash=0, bore_diameter=2, involute_facets=15)
+module herringbone_gear(number_of_teeth=8, diametral_pitch=false, circular_pitch=false, pressure_angle=19.34, center_angle=25, wheel_size=12, hub_thickness=20, backlash=0, bore_diameter=2, involute_facets=15)
 {
 union () {
 gear (
 	number_of_teeth=number_of_teeth,
-	circular_pitch=circular_pitch, 
+	diametral_pitch=diametral_pitch,
+	circular_pitch=circular_pitch,
 	pressure_angle=pressure_angle,
 	gear_thickness=wheel_size/2,
 	rim_thickness=wheel_size/2,
@@ -200,7 +195,8 @@ translate([0,0,wheel_size/2])
 rotate([0,0,-center_angle])
 gear (
 	number_of_teeth=number_of_teeth,
-	circular_pitch=circular_pitch, 
+	diametral_pitch=diametral_pitch,
+	circular_pitch=circular_pitch,
 	pressure_angle=pressure_angle,
 	gear_thickness=wheel_size/2,
 	rim_thickness=wheel_size/2,
