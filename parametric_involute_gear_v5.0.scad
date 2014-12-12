@@ -347,7 +347,7 @@ module gear (
 		{
 			difference ()
 			{
-				linear_extrude (height=rim_thickness, convexity=10, twist=twist)
+				linear_extrude (height=rim_thickness, convexity=20, twist=twist, slices=5)
 				gear_shape (
 					number_of_teeth,
 					pitch_radius = pitch_radius,
@@ -357,20 +357,20 @@ module gear (
 					half_thick_angle = half_thick_angle,
 					involute_facets=involute_facets);
 
-				if (gear_thickness < rim_thickness)
-					translate ([0,0,gear_thickness])
-					cylinder (r=rim_radius,h=rim_thickness-gear_thickness+1);
+				//if (gear_thickness < rim_thickness)
+					//translate ([0,0,gear_thickness])
+					//cylinder (r=rim_radius,h=rim_thickness-gear_thickness+1);
 			}
-			if (gear_thickness > rim_thickness)
-				cylinder (r=rim_radius,h=gear_thickness);
+			//if (gear_thickness > rim_thickness)
+			//	cylinder (r=rim_radius,h=gear_thickness);
 			if (hub_thickness > gear_thickness)
-				translate ([0,0,gear_thickness])
-				cylinder (r=hub_diameter/2,h=hub_thickness-gear_thickness);
+                                translate([0,0,-(hub_thickness-gear_thickness)/2])
+				cylinder (r=hub_diameter/2,h=hub_thickness, $fn=100);
 		}
-		translate ([0,0,-1])
+		translate ([0,0,-1-hub_thickness])
 		cylinder (
 			r=bore_diameter/2,
-			h=2+max(rim_thickness,hub_thickness,gear_thickness));
+			h=4+max(rim_thickness,hub_thickness,gear_thickness)*2, $fn=100);
 		if (circles>0)
 		{
 			for(i=[0:circles-1])	
