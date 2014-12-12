@@ -36,7 +36,7 @@ translate([-21, 0, -22.5]) rotate([0, 90, 0]) cylinder(r=15/2+0.1, h=12);
 translate([-21, 0, 22.5]) rotate([0, 90, 0]) cylinder(r=15/2+0.1, h=12);
 }
 difference() {
-translate([10.5,-30,-7.5]) cube(size = [10, 60, 62.5]);
+translate([10.5,-30,-55]) cube(size = [10, 60, 110]);
 translate([10, 0, -22.5]) rotate([0, 90, 0]) cylinder(r=15/2+0.1, h=12);
 translate([10, 0, 22.5]) rotate([0, 90, 0]) cylinder(r=15/2+0.1, h=12);
 translate([10, 23.57, 22.5+23.57]) rotate([0, 90, 0]) cylinder(r=2.5, h=12);
