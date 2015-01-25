@@ -290,11 +290,11 @@ module gear (
 	rim_thickness=8,
 	rim_width=5,
 	hub_thickness=10,
-	hub_diameter=15,
+	hub_diameter=10,
 	bore_diameter=5,
 	circles=0,
 	backlash=0,
-	twist=0,
+	twist=0, quality=10,
 	involute_facets=0)
 {
 	if (circular_pitch==false && diametral_pitch==false) 
@@ -347,7 +347,7 @@ module gear (
 		{
 			difference ()
 			{
-				linear_extrude (height=rim_thickness, convexity=20, twist=twist, slices=5)
+				linear_extrude (height=rim_thickness, convexity=20, twist=twist, quality=quality)
 				gear_shape (
 					number_of_teeth,
 					pitch_radius = pitch_radius,
@@ -357,26 +357,26 @@ module gear (
 					half_thick_angle = half_thick_angle,
 					involute_facets=involute_facets);
 
-				//if (gear_thickness < rim_thickness)
-					//translate ([0,0,gear_thickness])
-					//cylinder (r=rim_radius,h=rim_thickness-gear_thickness+1);
+				if (gear_thickness < rim_thickness)
+					translate ([0,0,gear_thickness])
+					cylinder (r=rim_radius,h=rim_thickness-gear_thickness+1, $fn=quality*2);
 			}
-			//if (gear_thickness > rim_thickness)
-			//	cylinder (r=rim_radius,h=gear_thickness);
+			if (gear_thickness > rim_thickness)
+				cylinder (r=rim_radius,h=gear_thickness, $fn=quality*2);
 			if (hub_thickness > gear_thickness)
                                 translate([0,0,-(hub_thickness-gear_thickness)/2])
-				cylinder (r=hub_diameter/2,h=hub_thickness, $fn=100);
+				cylinder (r=hub_diameter/2,h=hub_thickness, $fn=quality*2);
 		}
 		translate ([0,0,-1-hub_thickness])
 		cylinder (
 			r=bore_diameter/2,
-			h=4+max(rim_thickness,hub_thickness,gear_thickness)*2, $fn=100);
+			h=4+max(rim_thickness,hub_thickness,gear_thickness)*2, $fn=quality*2);
 		if (circles>0)
 		{
 			for(i=[0:circles-1])	
 				rotate([0,0,i*360/circles])
 				translate([circle_orbit_diameter/2,0,-1])
-				cylinder(r=circle_diameter/2,h=max(gear_thickness,rim_thickness)+3);
+				cylinder(r=circle_diameter/2,h=max(gear_thickness,rim_thickness)+3, $fn=quality*2);
 		}
 	}
 }
