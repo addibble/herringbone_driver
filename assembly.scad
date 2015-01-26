@@ -4,7 +4,7 @@ include <rack_herringbone.scad>
 // 100 for production
 // 10 for rough
 // 3 for active dev
-qual=3;
+qual=100;
 
 // gear parameters
 pi=3.1415926535897932384626433832795;
@@ -42,23 +42,25 @@ nut_thickness=2.4;
 nut_width=6.01;
 nut_face_width=5.5;
 gear_hub_thickness=(plate_thickness*2)+(spacer_height-(gear_width/2));
-echo(gear_hub_thickness);
+spacer_offset=10;
 
 // assembly
+/*
 plate1();
 translate([0,0,plate_thickness]) plate2();
 translate([0,0,(plate_thickness*3+2*spacer_height)]) mirror([0,0,1]) plate2();
 translate([0,0,(plate_thickness*4+2*spacer_height)]) mirror([0,0,1]) plate4();
 translate([plate_width/2,  (plate_length/2-axle_to_axle/2), gear_hub_thickness+gear_width/2]) hubgear();
 translate([plate_width/2,  (plate_length/2+axle_to_axle/2), gear_hub_thickness+gear_width/2]) hubgear();
+*/
 
 // print
-/*
 plate1();
 translate([plate_width+5, 0, 0]) plate2();
 translate([2*(plate_width+5), 0, 0]) plate2();
 translate([3*(plate_width+5), 0, 0]) plate4();
-*/
+translate([30, plate_length+30, (gear_hub_thickness+gear_width/2)]) hubgear();
+translate([90, plate_length+30, (gear_hub_thickness+gear_width/2)]) hubgear();
 
 
 module plate1() {
@@ -84,44 +86,44 @@ module plate4() {
 module spacershafts() {
           // spacer shafts -- bottom
           translate([plate_width/2,(plate_length/2-axle_to_axle/2-motor_mount_width/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
           // spacer shafts -- top
           translate([plate_width/2,(plate_length/2+axle_to_axle/2+motor_mount_width/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2),-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,-plate_thickness-0.1]) cylinder(r=screw_shaft_radius, h=plate_thickness+spacer_height+0.2, $fn=qual*4);
 }
 
 module spacerscrewheadholes() {
           // spacer shafts -- bottom
           translate([plate_width/2,(plate_length/2-axle_to_axle/2-motor_mount_width/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
           // spacer shafts -- top
           translate([plate_width/2,(plate_length/2+axle_to_axle/2+motor_mount_width/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2),-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,-0.1]) cylinder(r=screw_head_radius, h=screw_head_thickness, $fn=qual*4);
 }
 module spacernutholes() {
           // spacer shafts -- bottom
           translate([plate_width/2,(plate_length/2-axle_to_axle/2-motor_mount_width/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset,nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
           // spacer shafts -- top
           translate([plate_width/2,(plate_length/2+axle_to_axle/2+motor_mount_width/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
-          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
-          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2),nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
+          translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
+          translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset,nut_thickness/2-0.1]) hexagon(nut_width, nut_thickness);
 }
 
 module spacers() {
             // spacers - bottom
             translate([plate_width/2,(plate_length/2-axle_to_axle/2-motor_mount_width/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
-            translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
-            translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
+            translate([plate_width/2-(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset, 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
+            translate([plate_width/2+(motor_mount_width/2),(plate_length/2-axle_to_axle/2)+spacer_offset, 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
             // spacers - top
             translate([plate_width/2,(plate_length/2+axle_to_axle/2+motor_mount_width/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
-            translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
-            translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2), 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
+            translate([plate_width/2-(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset, 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
+            translate([plate_width/2+(motor_mount_width/2),(plate_length/2+axle_to_axle/2)-spacer_offset, 0]) cylinder(r=spacer_radius, h=spacer_height, $fn=qual*4);
 }
 
 module plate2() {
