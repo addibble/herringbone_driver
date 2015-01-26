@@ -362,21 +362,21 @@ module gear (
 					cylinder (r=rim_radius,h=rim_thickness-gear_thickness+1, $fn=quality*2);
 			}
 			if (gear_thickness > rim_thickness)
-				cylinder (r=rim_radius,h=gear_thickness, $fn=quality*2);
+				cylinder (r=rim_radius,h=gear_thickness, $fn=quality*8);
 			if (hub_thickness > gear_thickness)
-                                translate([0,0,-(hub_thickness-gear_thickness)/2])
-				cylinder (r=hub_diameter/2,h=hub_thickness, $fn=quality*2);
+                                translate([0,0,gear_thickness])
+				cylinder (r=hub_diameter/2,h=hub_thickness, $fn=quality*8);
 		}
-		translate ([0,0,-1-hub_thickness])
+		translate ([0,0,-1])
 		cylinder (
 			r=bore_diameter/2,
-			h=4+max(rim_thickness,hub_thickness,gear_thickness)*2, $fn=quality*2);
+			h=2+max(rim_thickness,hub_thickness,gear_thickness)*2, $fn=quality*8);
 		if (circles>0)
 		{
 			for(i=[0:circles-1])	
 				rotate([0,0,i*360/circles])
 				translate([circle_orbit_diameter/2,0,-1])
-				cylinder(r=circle_diameter/2,h=max(gear_thickness,rim_thickness)+3, $fn=quality*2);
+				cylinder(r=circle_diameter/2,h=max(gear_thickness,rim_thickness)+3, $fn=quality*8);
 		}
 	}
 }

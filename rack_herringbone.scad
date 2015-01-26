@@ -177,7 +177,7 @@ module tooth(basesegmentL,basesegmentW,topsegmentL,topsegmentW,height,baseoffset
 	);
 }
 
-module herringbone_gear(number_of_teeth=8, diametral_pitch=false, circular_pitch=false, pressure_angle=19.34, center_angle=25, wheel_size=12, hub_thickness=20, hub_diameter=10, backlash=0, bore_diameter=2, involute_facets=5, slices=5)
+module herringbone_gear(number_of_teeth=8, diametral_pitch=false, circular_pitch=false, pressure_angle=19.34, center_angle=25, wheel_size=12, hub_thickness=20, hub_diameter=10, backlash=0, bore_diameter=2, involute_facets=5, slices=5, quality=10)
 {
 union () {
 gear (
@@ -190,10 +190,11 @@ gear (
 	hub_thickness=hub_thickness,
 	hub_diameter=hub_diameter,
 	bore_diameter=bore_diameter,
-	backlash=backlash,twist=center_angle,involute_facets=involute_facets, slices=slices);
+	backlash=backlash,twist=center_angle,involute_facets=involute_facets, slices=slices, quality=quality);
 
-translate([0,0,wheel_size/2])
-rotate([0,0,-center_angle])
+//translate([0,0,wheel_size/2])
+//rotate([0,0,-center_angle])
+rotate([0,180,0])
 gear (
 	number_of_teeth=number_of_teeth,
 	diametral_pitch=diametral_pitch,
@@ -204,7 +205,7 @@ gear (
 	hub_thickness=hub_thickness,
 	hub_diameter=hub_diameter,
 	bore_diameter=bore_diameter,
-	backlash=backlash,twist=-center_angle,involute_facets=involute_facets, slices=slices);
+	backlash=backlash,twist=-center_angle,involute_facets=involute_facets, slices=slices, quality=quality);
 
 }
 
